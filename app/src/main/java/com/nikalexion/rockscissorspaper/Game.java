@@ -4,6 +4,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ public class Game extends AppCompatActivity {
     int random,opp;
     int scoreYou = 0;
     int scoreAI = 0;
+    private MediaPlayer win;
+    private MediaPlayer lose;
     Random r = new Random();
 
 
@@ -39,6 +43,11 @@ public class Game extends AppCompatActivity {
             you.setText("You: " + scoreYou);
             ai.setText("AI: " + scoreAI);
         }
+
+        win = MediaPlayer.create(this, R.raw.win);
+        win.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        lose = MediaPlayer.create(this, R.raw.lose);
+        lose.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
     @Override
@@ -71,10 +80,12 @@ public class Game extends AppCompatActivity {
         if (opp == 0){
             scoreYou++;
             you.setText("You: " + scoreYou);
+            win.start();
         }
         else if (opp == 1){
             scoreAI++;
             ai.setText("AI: " + scoreAI);
+            lose.start();
         }
         else{
 
@@ -110,12 +121,14 @@ public class Game extends AppCompatActivity {
         if (opp == 0){
             scoreAI++;
             ai.setText("AI: " + scoreAI);
+            lose.start();
         }
         else if (opp == 1){
         }
         else{
             scoreYou++;
             you.setText("You: " + scoreYou);
+            win.start();
         }
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -151,10 +164,12 @@ public class Game extends AppCompatActivity {
         else if (opp == 1){
             scoreYou++;
             you.setText("You: " + scoreYou);
+            win.start();
         }
         else{
             scoreAI++;
             ai.setText("AI: " + scoreAI);
+            lose.start();
         }
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
